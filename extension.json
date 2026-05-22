@@ -1,0 +1,51 @@
+{
+  "name": "DisplayMap",
+  "version": "0.1.0",
+  "author": "jmnote",
+  "url": "https://github.com/zetaoss/DisplayMap",
+  "description": "Simple and modern map display extension for MediaWiki.",
+  "license-name": "Apache-2.0",
+  "type": "parserhook",
+  "requires": {
+    "MediaWiki": ">= 1.40.0"
+  },
+  "AutoloadNamespaces": {
+    "DisplayMap\\": "src/"
+  },
+  "ResourceModules": {
+    "ext.displaymap.main": {
+      "scripts": ["resources/ext.displaymap.main.js"],
+      "styles": ["resources/ext.displaymap.main.css"],
+      "messages": [],
+      "targets": ["desktop", "mobile"]
+    }
+  },
+  "ResourceFileModulePaths": {
+    "localBasePath": "",
+    "remoteExtPath": "DisplayMap"
+  },
+  "Hooks": {
+    "ParserFirstCallInit": "DisplayMap\\Hooks::onParserFirstCallInit"
+  },
+  "config": {
+    "DisplayMapDefaultWidth": {
+      "value": "100%"
+    },
+    "DisplayMapDefaultHeight": {
+      "value": "400px"
+    },
+    "DisplayMapDefaultZoom": {
+      "value": 14
+    },
+    "DisplayMapDefaultMarkerColor": {
+      "value": "blue"
+    },
+    "DisplayMapDefaultShapeColor": {
+      "value": "red"
+    },
+    "DisplayMapLeafletDistUrl": {
+      "value": "https://unpkg.com/leaflet@1.9.4/dist/"
+    }
+  },
+  "manifest_version": 2
+}
