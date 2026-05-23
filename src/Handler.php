@@ -6,7 +6,7 @@ use MediaWiki\MediaWikiServices;
 use Parser;
 use PPFrame;
 
-class ParserFunctionHandler
+class Handler
 {
     public static function render(Parser $parser, PPFrame $frame, array $args)
     {
@@ -109,7 +109,7 @@ class ParserFunctionHandler
                 $url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q='.urlencode($address);
                 $options = [
                     'http' => [
-                        'header' => "User-Agent: MediaWiki-SimpleMaps/0.1.0\r\n",
+                        'header' => "User-Agent: MediaWiki-SimpleMaps/0.2.0\r\n",
                         'timeout' => 3.0,
                         'ignore_errors' => true,
                     ],
@@ -174,7 +174,7 @@ class ParserFunctionHandler
 
         $options = [
             'http' => [
-                'header' => "User-Agent: MediaWiki-SimpleMaps/0.1.0\r\n",
+                'header' => "User-Agent: MediaWiki-SimpleMaps/0.2.0\r\n",
                 'timeout' => 4.0,
                 'ignore_errors' => true,
             ],

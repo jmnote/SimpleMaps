@@ -10,6 +10,6 @@ class Hooks {
 		$contentLanguage = MediaWikiServices::getInstance()->getContentLanguage();
 		$contentLanguage->mMagicExtensions['display_map'] = [ 0, 'display_map' ];
 
-		$parser->setFunctionHook( 'display_map', [ ParserFunctionHandler::class, 'render' ], Parser::SFH_OBJECT_ARGS );
+		$parser->setFunctionHook( 'display_map', [ Handler::class, 'render' ], Parser::SFH_OBJECT_ARGS );
 	}
 }

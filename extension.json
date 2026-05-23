@@ -14,8 +14,8 @@
   },
   "ResourceModules": {
     "ext.simplemaps.main": {
-      "scripts": ["resources/ext.simplemaps.main.js"],
-      "styles": ["resources/ext.simplemaps.main.css"],
+      "scripts": ["resources/main.js"],
+      "styles": ["resources/main.css"],
       "messages": [],
       "targets": ["desktop", "mobile"]
     }
