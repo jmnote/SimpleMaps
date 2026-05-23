@@ -1,12 +1,12 @@
 <?php
 
-namespace DisplayMap;
+namespace SimpleMaps;
 
 use MediaWiki\MediaWikiServices;
 use Parser;
 use PPFrame;
 
-class ParserFunctionHandler
+class Handler
 {
     public static function render(Parser $parser, PPFrame $frame, array $args)
     {
@@ -15,16 +15,16 @@ class ParserFunctionHandler
         $config = $svc->getMainConfig();
         $hasExplicitZoom = array_key_exists('zoom', $params);
 
-        $width = $params['width'] ?? $config->get('DisplayMapDefaultWidth');
-        $height = $params['height'] ?? $config->get('DisplayMapDefaultHeight');
-        $params['zoom'] = $params['zoom'] ?? $config->get('DisplayMapDefaultZoom');
-        $params['_zoom_explicit'] = $hasExplicitZoom ? 1 : 0;
-        $params['markercolor'] = $params['markercolor'] ?? $config->get('DisplayMapDefaultMarkerColor');
-        $params['shapecolor'] = $params['shapecolor'] ?? $config->get('DisplayMapDefaultShapeColor');
+        $width = $params['width'] ?? $config->get('SimpleMapsWidth');
+        $height = $params['height'] ?? $config->get('SimpleMapsHeight');
+        $params['zoom'] = $params['zoom'] ?? $config->get('SimpleMapsZoom');
+        $params['zoom_explicit'] = $hasExplicitZoom ? 1 : 0;
+        $params['markercolor'] = $params['markercolor'] ?? $config->get('SimpleMapsMarkerColor');
+        $params['shapecolor'] = $params['shapecolor'] ?? $config->get('SimpleMapsShapeColor');
         if (! isset($params['scrollzoom']) && isset($params['scrollwheelzoom'])) {
             $params['scrollzoom'] = $params['scrollwheelzoom'];
         }
-        $params['_leaflet_dist_url'] = $config->get('DisplayMapLeafletDistUrl');
+        $params['leaflet_dist_url'] = $config->get('SimpleMapsLeafletDistUrl');
 
         if (is_numeric($width)) {
             $width .= 'px';
@@ -37,10 +37,10 @@ class ParserFunctionHandler
         $params = self::resolveGeoJson($params);
 
         $output = $parser->getOutput();
-        $output->addModules(['ext.displaymap.main']);
+        $output->addModules(['ext.simplemaps.main']);
         $mapData = htmlspecialchars(json_encode($params), ENT_QUOTES, 'UTF-8');
 
-        $html = "<div class=\"mw-display-map\" style=\"width: $width; height: $height;\" data-map-data=\"$mapData\"></div>";
+        $html = "<div class=\"mw-simple-maps\" style=\"width: $width; height: $height;\" data-map-data=\"$mapData\"></div>";
 
         return [$html, 'noparse' => true, 'isHTML' => true];
     }
@@ -100,7 +100,7 @@ class ParserFunctionHandler
         }
 
         $cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
-        $cacheKey = $cache->makeKey('displaymap', 'geocode', md5($address));
+        $cacheKey = $cache->makeKey('simplemaps', 'geocode', md5($address));
 
         return $cache->getWithSetCallback(
             $cacheKey,
@@ -109,7 +109,7 @@ class ParserFunctionHandler
                 $url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q='.urlencode($address);
                 $options = [
                     'http' => [
-                        'header' => "User-Agent: MediaWiki-DisplayMap/0.1.0\r\n",
+                        'header' => "User-Agent: MediaWiki-SimpleMaps/0.2.0\r\n",
                         'timeout' => 3.0,
                         'ignore_errors' => true,
                     ],
@@ -125,7 +125,7 @@ class ParserFunctionHandler
                 }
 
                 if (function_exists('wfDebugLog')) {
-                    wfDebugLog('DisplayMap', 'Geocode failed for address: '.$address);
+                    wfDebugLog('SimpleMaps', 'Geocode failed for address: '.$address);
                 }
 
                 return $address;
@@ -135,7 +135,7 @@ class ParserFunctionHandler
 
     private static function resolveGeoJson(array $params): array
     {
-        $params['_geojson'] = null;
+        $params['geojson_data'] = null;
         if (! isset($params['geojson'])) {
             return $params;
         }
@@ -146,7 +146,7 @@ class ParserFunctionHandler
         }
 
         $cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
-        $cacheKey = $cache->makeKey('displaymap', 'geojson', md5($query));
+        $cacheKey = $cache->makeKey('simplemaps', 'geojson', md5($query));
 
         $geojson = $cache->getWithSetCallback(
             $cacheKey,
@@ -159,7 +159,7 @@ class ParserFunctionHandler
         );
 
         if (is_array($geojson) && ! empty($geojson)) {
-            $params['_geojson'] = $geojson;
+            $params['geojson_data'] = $geojson;
         }
 
         return $params;
@@ -174,7 +174,7 @@ class ParserFunctionHandler
 
         $options = [
             'http' => [
-                'header' => "User-Agent: MediaWiki-DisplayMap/0.1.0\r\n",
+                'header' => "User-Agent: MediaWiki-SimpleMaps/0.2.0\r\n",
                 'timeout' => 4.0,
                 'ignore_errors' => true,
             ],
@@ -184,7 +184,7 @@ class ParserFunctionHandler
 
         if (! $response) {
             if (function_exists('wfDebugLog')) {
-                wfDebugLog('DisplayMap', 'GeoJSON API fetch failed: '.$query);
+                wfDebugLog('SimpleMaps', 'GeoJSON API fetch failed: '.$query);
             }
 
             return null;
@@ -193,7 +193,7 @@ class ParserFunctionHandler
         $data = json_decode($response, true);
         if (! is_array($data)) {
             if (function_exists('wfDebugLog')) {
-                wfDebugLog('DisplayMap', 'GeoJSON decode failed: '.$query);
+                wfDebugLog('SimpleMaps', 'GeoJSON decode failed: '.$query);
             }
 
             return null;

@@ -1,4 +1,4 @@
-.mw-display-map {
+.mw-simple-maps {
   background-color: #f8f9fa;
   border: 1px solid #c8ccd1;
   margin-bottom: 1em;
@@ -6,6 +6,6 @@
 .leaflet-container {
   z-index: 1;
 }
-.mw-dm-pin {
+.mw-sm-pin {
   border: none;
 }

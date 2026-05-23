@@ -20,16 +20,16 @@
     return loadPromise;
   }
 
-  const DM = {
+  const SM = {
     init: async function ($content) {
-      const $maps = $content.find(".mw-display-map");
+      const $maps = $content.find(".mw-simple-maps");
       if (!$maps.length) {
         return;
       }
 
       const firstMapData = $maps.first().data("map-data") || {};
       if (!firstMapData._leaflet_dist_url) {
-        console.error("DM: Missing _leaflet_dist_url");
+        console.error("SimpleMaps: Missing _leaflet_dist_url");
         return;
       }
       const leafletDistUrl = firstMapData._leaflet_dist_url;
@@ -38,16 +38,16 @@
         await loadLf(leafletDistUrl);
         $maps.each(function () {
           const $el = $(this);
-          if ($el.data("mw-dm-init")) {
+          if ($el.data("mw-sm-init")) {
             return;
           }
-          $el.data("mw-dm-init", true);
+          $el.data("mw-sm-init", true);
 
           const data = $el.data("map-data");
-          DM.render($el, data);
+          SM.render($el, data);
         });
       } catch (err) {
-        console.error("DM: Failed to load Leaflet", err);
+        console.error("SimpleMaps: Failed to load Leaflet", err);
       }
     },
 
@@ -105,7 +105,7 @@
 
       let centerLatLng = null;
       if (data.center) {
-        DM.loc(data.center, function (latlng) {
+        SM.loc(data.center, function (latlng) {
           centerLatLng = latlng;
         });
       }
@@ -114,7 +114,7 @@
       if (data.locations) locs = data.locations.split(";");
 
       locs.forEach(function (locStr) {
-        DM.loc(locStr, function (latlng, info) {
+        SM.loc(locStr, function (latlng, info) {
           const markerColor = (info.color || "").trim() || defaultMarkerColor;
           const markerPath =
             "M5.59,10.48A7.2,7.2 0 1 1 18.41,10.48Q16,15 12,23Q8,15 5.59,10.48z";
@@ -126,7 +126,7 @@
             '"/><circle cx="12" cy="7.2" r="2.5" fill="white" /></svg>';
           const markerIconUrl =
             "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(markerSvg);
-          const leafletDistUrl = data._leaflet_dist_url.replace(/\/?$/, "/");
+          const leafletDistUrl = data.leaflet_dist_url.replace(/\/?$/, "/");
           const markerShadowUrl = leafletDistUrl + "images/marker-shadow.png";
 
           const customIcon = L.icon({
@@ -137,7 +137,7 @@
             popupAnchor: [0, -31],
             shadowSize: [30, 30],
             shadowAnchor: [9, 30],
-            className: "mw-dm-pin",
+            className: "mw-sm-pin",
           });
 
           const markerOptions = { icon: customIcon };
@@ -167,7 +167,7 @@
           let processedCount = 0;
 
           pointsStr.forEach(function (p, i) {
-            DM.loc(
+            SM.loc(
               p,
               function (latlng) {
                 latlngs[i] = latlng;
@@ -205,7 +205,7 @@
           let processedCount = 0;
 
           pointsStr.forEach(function (p, i) {
-            DM.loc(
+            SM.loc(
               p,
               function (latlng) {
                 latlngs[i] = latlng;
@@ -241,7 +241,7 @@
           const text = parts[2] || "";
           const circleStyle = parseShapeStyle(parts, true);
 
-          DM.loc(
+          SM.loc(
             centerStr,
             function (latlng) {
               const circle = L.circle(
@@ -269,7 +269,7 @@
           let processedCount = 0;
 
           pointsStr.forEach(function (p, i) {
-            DM.loc(
+            SM.loc(
               p,
               function (latlng) {
                 latlngs[i] = latlng;
@@ -296,12 +296,12 @@
         });
       }
 
-      if (data._geojson) {
+      if (data.geojson_data) {
         try {
           if (
-            data._geojson.type === "FeatureCollection" &&
-            Array.isArray(data._geojson.features) &&
-            data._geojson.features.length === 0
+            data.geojson_data.type === "FeatureCollection" &&
+            Array.isArray(data.geojson_data.features) &&
+            data.geojson_data.features.length === 0
           ) {
             // Skip empty GeoJSON payloads.
           } else {
@@ -312,7 +312,7 @@
               fillColor: defaultGeoJsonColor,
               fillOpacity: 0.2,
             };
-            const geoLayer = L.geoJSON(data._geojson, {
+            const geoLayer = L.geoJSON(data.geojson_data, {
               style: function () {
                 return geoStyle;
               },
@@ -334,7 +334,7 @@
             }
           }
         } catch (e) {
-          console.error("DM: Invalid geojson payload", e);
+          console.error("SimpleMaps: Invalid geojson payload", e);
         }
       }
 
@@ -427,7 +427,7 @@
       const text = parts[2] || "";
       const color = parts[3] || "";
 
-      const coords = DM.parseCoord(coordsOrAddr);
+      const coords = SM.parseCoord(coordsOrAddr);
       if (coords) {
         callback(coords, { title: title, text: text, color: color });
         return;
@@ -448,7 +448,7 @@
     },
 
     parseCoord: function (input) {
-      const str = DM.normCoord(input);
+      const str = SM.normCoord(input);
       if (!str || str.indexOf(",") === -1) {
         return null;
       }
@@ -467,8 +467,8 @@
         return [parseFloat(pair[0]), parseFloat(pair[1])];
       }
 
-      const lat = DM.dmsToDec(pair[0], ["N", "S"]);
-      const lon = DM.dmsToDec(pair[1], ["E", "W"]);
+      const lat = SM.dmsToDec(pair[0], ["N", "S"]);
+      const lon = SM.dmsToDec(pair[1], ["E", "W"]);
       if (lat === null || lon === null) {
         return null;
       }
@@ -476,7 +476,7 @@
     },
 
     dmsToDec: function (dmsText, allowedDirections) {
-      const text = DM.normCoord(dmsText).toUpperCase();
+      const text = SM.normCoord(dmsText).toUpperCase();
       const dirRegex = new RegExp("(" + allowedDirections.join("|") + ")");
       const dirMatch = text.match(dirRegex);
       const direction = dirMatch ? dirMatch[1] : null;
@@ -501,6 +501,7 @@
   };
 
   mw.hook("wikipage.content").add(function ($content) {
-    DM.init($content);
+    SM.init($content);
   });
 })();
+;

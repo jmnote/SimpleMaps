@@ -1,6 +1,6 @@
-# DisplayMap Extension
+# SimpleMaps Extension
 
-`DisplayMap` is a lightweight and modern extension for displaying maps in MediaWiki.
+`SimpleMaps` is a lightweight and modern extension for displaying maps in MediaWiki.
 
 ## Key Features
 
@@ -15,7 +15,7 @@
 Add the following line to your `LocalSettings.php`:
 
 ```php
-wfLoadExtension( 'DisplayMap' );
+wfLoadExtension( 'SimpleMaps' );
 ```
 
 ## Usage
@@ -66,12 +66,12 @@ https://nominatim.openstreetmap.org/search?format=geojson&polygon_geojson=1&limi
 
 You can override the default values defined in `extension.json` using these variables:
 
-* `$wgDisplayMapDefaultWidth`: default map width (`100%`)
-* `$wgDisplayMapDefaultHeight`: default map height (`400px`)
-* `$wgDisplayMapDefaultZoom`: default zoom level (`14`)
-* `$wgDisplayMapDefaultMarkerColor`: default marker color (`blue`)
-* `$wgDisplayMapDefaultShapeColor`: default shape color (`red`)
-* `$wgDisplayMapLeafletDistUrl`: Leaflet dist base URL (e.g. `https://unpkg.com/leaflet@1.9.4/dist/`)
+* `$wgSimpleMapsWidth`: default map width (`100%`)
+* `$wgSimpleMapsHeight`: default map height (`400px`)
+* `$wgSimpleMapsZoom`: default zoom level (`14`)
+* `$wgSimpleMapsMarkerColor`: default marker color (`blue`)
+* `$wgSimpleMapsShapeColor`: default shape color (`red`)
+* `$wgSimpleMapsLeafletDistUrl`: Leaflet dist base URL (e.g. `https://unpkg.com/leaflet@1.9.4/dist/`)
 
 ## Notes
 
