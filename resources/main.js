@@ -28,11 +28,11 @@
       }
 
       const firstMapData = $maps.first().data("map-data") || {};
-      if (!firstMapData._leaflet_dist_url) {
-        console.error("SimpleMaps: Missing _leaflet_dist_url");
+      if (!firstMapData.leaflet_dist_url) {
+        console.error("SimpleMaps: Missing leaflet_dist_url");
         return;
       }
-      const leafletDistUrl = firstMapData._leaflet_dist_url;
+      const leafletDistUrl = firstMapData.leaflet_dist_url;
 
       try {
         await loadLf(leafletDistUrl);
@@ -54,9 +54,9 @@
     render: function ($el, data) {
       const zoom = parseInt(data.zoom) || 14;
       const hasExplicitZoom =
-        data._zoom_explicit === 1 ||
-        data._zoom_explicit === "1" ||
-        data._zoom_explicit === true;
+        data.zoom_explicit === 1 ||
+        data.zoom_explicit === "1" ||
+        data.zoom_explicit === true;
       const explicitZoomOffset = 4;
       const explicitZoomOffsetDistanceThresholdM = 500000;
       const scrollzoom = (data.scrollzoom || data.scrollwheelzoom || "")
