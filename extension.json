@@ -1,13 +1,13 @@
 {
   "name": "SimpleMaps",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "jmnote",
   "url": "https://github.com/zetaoss/SimpleMaps",
   "description": "Simple and modern map display extension for MediaWiki.",
   "license-name": "Apache-2.0",
   "type": "parserhook",
   "requires": {
-    "MediaWiki": ">= 1.40.0"
+    "MediaWiki": ">= 1.43.0"
   },
   "AutoloadNamespaces": {
     "SimpleMaps\\": "src/"
