@@ -1,6 +1,6 @@
 <?php
 
-namespace DisplayMap;
+namespace SimpleMaps;
 
 use Parser;
 use MediaWiki\MediaWikiServices;

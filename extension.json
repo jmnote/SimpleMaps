@@ -1,8 +1,8 @@
 {
-  "name": "DisplayMap",
+  "name": "SimpleMaps",
   "version": "0.1.0",
   "author": "jmnote",
-  "url": "https://github.com/zetaoss/DisplayMap",
+  "url": "https://github.com/zetaoss/SimpleMaps",
   "description": "Simple and modern map display extension for MediaWiki.",
   "license-name": "Apache-2.0",
   "type": "parserhook",
@@ -10,40 +10,40 @@
     "MediaWiki": ">= 1.40.0"
   },
   "AutoloadNamespaces": {
-    "DisplayMap\\": "src/"
+    "SimpleMaps\\": "src/"
   },
   "ResourceModules": {
-    "ext.displaymap.main": {
-      "scripts": ["resources/ext.displaymap.main.js"],
-      "styles": ["resources/ext.displaymap.main.css"],
+    "ext.simplemaps.main": {
+      "scripts": ["resources/ext.simplemaps.main.js"],
+      "styles": ["resources/ext.simplemaps.main.css"],
       "messages": [],
       "targets": ["desktop", "mobile"]
     }
   },
   "ResourceFileModulePaths": {
     "localBasePath": "",
-    "remoteExtPath": "DisplayMap"
+    "remoteExtPath": "SimpleMaps"
   },
   "Hooks": {
-    "ParserFirstCallInit": "DisplayMap\\Hooks::onParserFirstCallInit"
+    "ParserFirstCallInit": "SimpleMaps\\Hooks::onParserFirstCallInit"
   },
   "config": {
-    "DisplayMapDefaultWidth": {
+    "SMWidth": {
       "value": "100%"
     },
-    "DisplayMapDefaultHeight": {
+    "SMHeight": {
       "value": "400px"
     },
-    "DisplayMapDefaultZoom": {
+    "SMZoom": {
       "value": 14
     },
-    "DisplayMapDefaultMarkerColor": {
+    "SMMarkerColor": {
       "value": "blue"
     },
-    "DisplayMapDefaultShapeColor": {
+    "SMShapeColor": {
       "value": "red"
     },
-    "DisplayMapLeafletDistUrl": {
+    "SMLeafletDistUrl": {
       "value": "https://unpkg.com/leaflet@1.9.4/dist/"
     }
   },
