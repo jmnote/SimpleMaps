@@ -66,12 +66,12 @@ https://nominatim.openstreetmap.org/search?format=geojson&polygon_geojson=1&limi
 
 You can override the default values defined in `extension.json` using these variables:
 
-* `$wgSMWidth`: default map width (`100%`)
-* `$wgSMHeight`: default map height (`400px`)
-* `$wgSMZoom`: default zoom level (`14`)
-* `$wgSMMarkerColor`: default marker color (`blue`)
-* `$wgSMShapeColor`: default shape color (`red`)
-* `$wgSMLeafletDistUrl`: Leaflet dist base URL (e.g. `https://unpkg.com/leaflet@1.9.4/dist/`)
+* `$wgSimpleMapsWidth`: default map width (`100%`)
+* `$wgSimpleMapsHeight`: default map height (`400px`)
+* `$wgSimpleMapsZoom`: default zoom level (`14`)
+* `$wgSimpleMapsMarkerColor`: default marker color (`blue`)
+* `$wgSimpleMapsShapeColor`: default shape color (`red`)
+* `$wgSimpleMapsLeafletDistUrl`: Leaflet dist base URL (e.g. `https://unpkg.com/leaflet@1.9.4/dist/`)
 
 ## Notes
 

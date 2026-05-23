@@ -28,22 +28,22 @@
     "ParserFirstCallInit": "SimpleMaps\\Hooks::onParserFirstCallInit"
   },
   "config": {
-    "SMWidth": {
+    "SimpleMapsWidth": {
       "value": "100%"
     },
-    "SMHeight": {
+    "SimpleMapsHeight": {
       "value": "400px"
     },
-    "SMZoom": {
+    "SimpleMapsZoom": {
       "value": 14
     },
-    "SMMarkerColor": {
+    "SimpleMapsMarkerColor": {
       "value": "blue"
     },
-    "SMShapeColor": {
+    "SimpleMapsShapeColor": {
       "value": "red"
     },
-    "SMLeafletDistUrl": {
+    "SimpleMapsLeafletDistUrl": {
       "value": "https://unpkg.com/leaflet@1.9.4/dist/"
     }
   },

@@ -126,7 +126,7 @@
             '"/><circle cx="12" cy="7.2" r="2.5" fill="white" /></svg>';
           const markerIconUrl =
             "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(markerSvg);
-          const leafletDistUrl = data._leaflet_dist_url.replace(/\/?$/, "/");
+          const leafletDistUrl = data.leaflet_dist_url.replace(/\/?$/, "/");
           const markerShadowUrl = leafletDistUrl + "images/marker-shadow.png";
 
           const customIcon = L.icon({
@@ -296,12 +296,12 @@
         });
       }
 
-      if (data._geojson) {
+      if (data.geojson_data) {
         try {
           if (
-            data._geojson.type === "FeatureCollection" &&
-            Array.isArray(data._geojson.features) &&
-            data._geojson.features.length === 0
+            data.geojson_data.type === "FeatureCollection" &&
+            Array.isArray(data.geojson_data.features) &&
+            data.geojson_data.features.length === 0
           ) {
             // Skip empty GeoJSON payloads.
           } else {
@@ -312,7 +312,7 @@
               fillColor: defaultGeoJsonColor,
               fillOpacity: 0.2,
             };
-            const geoLayer = L.geoJSON(data._geojson, {
+            const geoLayer = L.geoJSON(data.geojson_data, {
               style: function () {
                 return geoStyle;
               },
@@ -504,3 +504,4 @@
     SM.init($content);
   });
 })();
+;

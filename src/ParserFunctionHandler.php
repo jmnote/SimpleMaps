@@ -15,16 +15,16 @@ class ParserFunctionHandler
         $config = $svc->getMainConfig();
         $hasExplicitZoom = array_key_exists('zoom', $params);
 
-        $width = $params['width'] ?? $config->get('SMWidth');
-        $height = $params['height'] ?? $config->get('SMHeight');
-        $params['zoom'] = $params['zoom'] ?? $config->get('SMZoom');
-        $params['_zoom_explicit'] = $hasExplicitZoom ? 1 : 0;
-        $params['markercolor'] = $params['markercolor'] ?? $config->get('SMMarkerColor');
-        $params['shapecolor'] = $params['shapecolor'] ?? $config->get('SMShapeColor');
+        $width = $params['width'] ?? $config->get('SimpleMapsWidth');
+        $height = $params['height'] ?? $config->get('SimpleMapsHeight');
+        $params['zoom'] = $params['zoom'] ?? $config->get('SimpleMapsZoom');
+        $params['zoom_explicit'] = $hasExplicitZoom ? 1 : 0;
+        $params['markercolor'] = $params['markercolor'] ?? $config->get('SimpleMapsMarkerColor');
+        $params['shapecolor'] = $params['shapecolor'] ?? $config->get('SimpleMapsShapeColor');
         if (! isset($params['scrollzoom']) && isset($params['scrollwheelzoom'])) {
             $params['scrollzoom'] = $params['scrollwheelzoom'];
         }
-        $params['_leaflet_dist_url'] = $config->get('SMLeafletDistUrl');
+        $params['leaflet_dist_url'] = $config->get('SimpleMapsLeafletDistUrl');
 
         if (is_numeric($width)) {
             $width .= 'px';
@@ -135,7 +135,7 @@ class ParserFunctionHandler
 
     private static function resolveGeoJson(array $params): array
     {
-        $params['_geojson'] = null;
+        $params['geojson_data'] = null;
         if (! isset($params['geojson'])) {
             return $params;
         }
@@ -159,7 +159,7 @@ class ParserFunctionHandler
         );
 
         if (is_array($geojson) && ! empty($geojson)) {
-            $params['_geojson'] = $geojson;
+            $params['geojson_data'] = $geojson;
         }
 
         return $params;
